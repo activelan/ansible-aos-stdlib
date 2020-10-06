@@ -168,10 +168,9 @@ def main():
         if module.params['backup']:
             backup_config(output, module.params['host'])
         if module.params['commands']:
-            output['command'] = ssh_conn.send_config_set(config_commands=\
-                                              module.params['commands'])
-            if '(Y/N)' in output:
-                output += net_connect.send_command_timing("y")
+              output['command'] = ssh_conn.send_command(config_commands=\
+                                                module.params['commands'], expect string=r"(Y/N)")
+              output += ssh_conn.send_command(command_string="y", expect_string=r"#")
         elif module.params['file']:
             output['command'] = ssh_conn.send_config_from_file(config_file=\
                                                     module.params['file'])
