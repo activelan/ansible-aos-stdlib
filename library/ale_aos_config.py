@@ -170,6 +170,8 @@ def main():
         if module.params['commands']:
             output['command'] = ssh_conn.send_config_set(config_commands=\
                                               module.params['commands'])
+            if '(Y/N)' in output:
+                output += net_connect.send_command_timing("y")
         elif module.params['file']:
             output['command'] = ssh_conn.send_config_from_file(config_file=\
                                                     module.params['file'])
