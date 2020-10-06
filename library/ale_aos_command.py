@@ -125,6 +125,8 @@ def main():
         ssh_conn = ConnectHandler(**net_device)
         if module.params['timing']:
             output = ssh_conn.send_command_timing(module.params['command'])
+            if "(Y/N)" in output:
+                output += ssh_conn.send_command_timing("y")
         else:
             output = ssh_conn.send_command(module.params['command'])
         ssh_conn.disconnect()
